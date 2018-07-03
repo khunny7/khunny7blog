@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import get from 'lodash/get'
+import { Grid, Row, Col } from 'react-bootstrap'
 
 import { rhythm } from '../utils/typography'
 
@@ -10,22 +11,38 @@ export default class PostPreview extends React.Component {
         const title = this.props.title;
         const slug = this.props.slug;
         const date = this.props.date;
-        const excerpt = this.props.excerpt;
+        const content = this.props.content;
 
         return (
-            <div key={slug}>
-                <h3
-                    style={{
-                    marginBottom: rhythm(1 / 4),
-                    }}
-                >
-                    <Link style={{ boxShadow: 'none' }} to={ slug }>
-                        {title}
-                    </Link>
-                </h3>
+            <Grid>
+                <Row>
+                    <h3
+                        style={{
+                            marginBottom: rhythm(1 / 4),
+                        }}
+                    >
+                        <Link
+                            style={{
+                                boxShadow: 'none',
+                                fontSize: '15px',
+                            }}
+                            to={{
+                                pathname: '/postings',
+                                hash: slug,
+                            }}>
+                            {title}
+                        </Link>
+                    </h3>
+                </Row>
+                <Row>
                 <small>{ date }</small>
-                <p dangerouslySetInnerHTML={{ __html: excerpt }} />
-            </div>
+                </Row>
+                <Row>
+                    <p>
+                        { content }
+                    </p>
+                </Row>
+            </Grid>
           )
     }
 }

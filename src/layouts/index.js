@@ -1,9 +1,26 @@
 import React from 'react'
 import Link from 'gatsby-link'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../components/header'
 import backgroundPic from './backgroundPic.jpg'
 
 import { rhythm, scale } from '../utils/typography'
+
+import C from '../constants'
+import appReducer from '../store/reducers'
+import initialState from '../store/initialState.json'
+import { createStore } from 'redux'
+import storeFactory from '../store'
+import { addPosting, addPostingAsync } from '../store/actions'
+import { Provider } from 'react-redux'
+
+window.store = storeFactory(initialState)
+
+let state = initialState;
+
+store.dispatch(
+  addPostingAsync('some title yes', 'this is some content oh yeah')
+)
 
 class Template extends React.Component {
   render() {
@@ -15,25 +32,27 @@ class Template extends React.Component {
     }
     
     return (
-      <div
-        style={{
-          backgroundImage: `url(${backgroundPic})`,
-          backgroundColor: '#CCCCCC',
-        }}
-      >
+      <Provider store={store}>
         <div
           style={{
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            maxWidth: rhythm(24),
-            backgroundColor: 'white',
-            padding: `0`,
+            backgroundImage: `url(${backgroundPic})`,
+            backgroundColor: '#CCCCCC',
           }}
         >
-          <Header />
-          {children()}
+          <div
+            style={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              maxWidth: rhythm(24),
+              backgroundColor: 'white',
+              padding: `0`,
+            }}
+          >
+            <Header />
+            {children()}
+          </div>
         </div>
-      </div>
+      </Provider>
     )
   }
 }
